@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CategoryRequest;
-use App\Http\Resources\CategoryResource;
-use App\Models\Category;
+use App\Models\SubCategory;
+use App\Http\Requests\SubCategoryRequest;
+use App\Http\Resources\{ SubCategoriesResource, SubCategoryDetailResource };
 
-class CategoryController extends Controller
+class SubCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(5);
+        $categories = SubCategory::paginate(5);
 
-        return $this->sendResponsePaginate(CategoryResource::collection($categories), 'Categories retrieved successfully.');
-
+        return $this->sendResponsePaginate(SubCategoriesResource::collection($categories), 'Categories retrieved successfully.');
     }
 
     /**
@@ -38,11 +37,11 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $request)
+    public function store(SubCategoryRequest $request)
     {
-        Category::create($request->only('name'));
+        SubCategory::create($request->only('name', 'category_id'));
 
-        return $this->sendResponse('', 'Adding category successfully.');
+        return $this->sendResponse('', 'Adding sub category successfully.');
     }
 
     /**
@@ -53,7 +52,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        
+        //
     }
 
     /**
@@ -64,9 +63,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::where('id', $id)->firstOrFailToJson('Category not found.');
+        $category = SubCategory::with('category')->where('id', $id)->firstOrFailToJson('Category not found.');
 
-        return $this->sendResponse(new CategoryResource($category), 'Get category successfully.');   
+        return $this->sendResponse(new SubCategoryDetailResource($category), 'Get category successfully.');  
     }
 
     /**
@@ -76,9 +75,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $request, $id)
+    public function update(SubCategoryRequest $request, $id)
     {
-        $category = Category::where('id', $id)->firstOrFailToJson('Category not found.');
+        $category = SubCategory::where('id', $id)->firstOrFailToJson('Sub category not found.');
 
         $category->update($request->only('name'));
 
@@ -93,10 +92,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::where('id', $id)->firstOrFailToJson('Category not found.');
+        $category = SubCategory::where('id', $id)->firstOrFailToJson('Sub category not found.');
 
         $category->delete();
 
-        return $this->sendResponse('', 'Delete category successfully.');
+        return $this->sendResponse('', 'Delete sub category successfully.');
     }
 }

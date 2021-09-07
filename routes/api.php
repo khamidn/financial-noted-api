@@ -5,6 +5,7 @@ use App\Http\Controllers\API\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\SubCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +28,9 @@ Route::post('register', [RegisterController::class, 'register']);
 Route::middleware(('auth:api'))->group(function(){
     Route::post('logout', [LoginController::class, 'logout']);
 
-    Route::resource('categories', CategoryController::class)->except('create', 'show');
+    Route::group(['prefix' => 'categories'], function(){
+        Route::resource('/', CategoryController::class)->except('create', 'show');
+        Route::resource('/sub', SubCategoryController::class)->except('create', 'show');
+    });
+   
 });
