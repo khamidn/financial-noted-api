@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\SubCategoryController;
+use App\Http\Controllers\API\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,5 +33,7 @@ Route::middleware(('auth:api'))->group(function(){
         Route::resource('/', CategoryController::class)->except('create', 'show');
         Route::resource('/sub', SubCategoryController::class)->except('create', 'show');
     });
+
+    Route::resource('tag', TagController::class)->except('create', 'show');
    
 });
