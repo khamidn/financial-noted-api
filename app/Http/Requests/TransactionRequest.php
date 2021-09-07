@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\BaseFailedValidation;
 
-class AccountRequest extends FormRequest
+class TransactionRequest extends FormRequest
 {
     use BaseFailedValidation;
     /**
@@ -26,13 +26,14 @@ class AccountRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name' => 'required|unique:categories,name',
-            'jenis' => 'required|in:kas,tabungan,utang,piutang'
+            'account_id' => 'required|integer|exists:accounts,id',
+            'tanggal' => 'required|date|date_format:Y-m-d',
+            'category_id' => 'required|integer|exists:categories,id',
+            'subcategory_id' => 'required|integer|exists:sub_categories,id',
+            'tag_id' => 'required|integer|exists:tags,id',
+            'keterangan' => 'required',
+            'nominal' => 'required'
         ];
-
-        if ($this->getMethod() == "PUT") {
-            $rules['name'] = 'required|unique:categories,name,'.$this->id;
-        }
 
         return $rules;
     }

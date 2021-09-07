@@ -12,4 +12,9 @@ class Tag extends Model
     protected $guarded = [];
 
     public $timestamps = false;
+
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }
