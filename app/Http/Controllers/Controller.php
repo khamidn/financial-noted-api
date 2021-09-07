@@ -42,7 +42,7 @@ class Controller extends BaseController
         $result = is_array($data) ? Arr::first($data) : $data;
         
         return response()->json([
-            'status' => $code === 200 ? true : false,
+            'success' => $code === 200 ? true : false,
             $name => $data,
             'message' => $message,
             'total' => $result->total(),

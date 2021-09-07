@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\SubCategoryController;
 use App\Http\Controllers\API\TagController;
+use App\Http\Controllers\API\AccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,17 +24,18 @@ use App\Http\Controllers\API\TagController;
 //     return $request->user();
 // });
 
-Route::post('login', [LoginController::class, 'login']);
-Route::post('register', [RegisterController::class, 'register']);
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/register', [RegisterController::class, 'register']);
 
 Route::middleware(('auth:api'))->group(function(){
-    Route::post('logout', [LoginController::class, 'logout']);
+    Route::post('/logout', [LoginController::class, 'logout']);
 
     Route::group(['prefix' => 'categories'], function(){
         Route::resource('/', CategoryController::class)->except('create', 'show');
         Route::resource('/sub', SubCategoryController::class)->except('create', 'show');
     });
 
-    Route::resource('tag', TagController::class)->except('create', 'show');
+    Route::resource('/tag', TagController::class)->except('create', 'show');
+    Route::resource('/account', AccountController::class)->except('create', 'show');
    
 });
