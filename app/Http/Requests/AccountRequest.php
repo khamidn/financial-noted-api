@@ -31,7 +31,8 @@ class AccountRequest extends FormRequest
         ];
 
         if ($this->getMethod() == "PUT") {
-            $rules['name'] = 'required|unique:categories,name,'.$this->id;
+            $id=$this->account;
+            $rules['name'] = 'required|unique:categories,name,'.$id;
         }
 
         return $rules;

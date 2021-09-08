@@ -30,7 +30,8 @@ class TagRequest extends FormRequest
         ];
 
         if ($this->getMethod() == "PUT") {
-            $rules['name'] = 'required|unique:tags,name,'.$this->id;
+            $id=$this->tag;
+            $rules['name'] = 'required|unique:tags,name,'.$id;
         }
 
         return $rules;

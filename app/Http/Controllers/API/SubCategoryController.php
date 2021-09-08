@@ -22,16 +22,6 @@ class SubCategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -52,21 +42,11 @@ class SubCategoryController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
         $category = SubCategory::with('category')->where('id', $id)->firstOrFailToJson('Category not found.');
 
-        return $this->sendResponse(new SubCategoryDetailResource($category), 'Get category successfully.');  
+        return $this->sendResponse(new SubCategoryDetailResource($category), 'Get category successfully.');
     }
+
 
     /**
      * Update the specified resource in storage.

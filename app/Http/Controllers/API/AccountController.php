@@ -22,16 +22,6 @@ class AccountController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -52,20 +42,9 @@ class AccountController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
         $account = Account::where('id', $id)->firstOrFailToJson('Account not found.');
 
-        return $this->sendResponse(new AccountResource($account), 'Get Account successfully.');   
+        return $this->sendResponse(new AccountResource($account), 'Get Account successfully.'); 
     }
 
     /**

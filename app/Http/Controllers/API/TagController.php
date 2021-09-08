@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Tag;
 use App\Http\Requests\TagRequest;
 use App\Http\Resources\TagResource;
@@ -23,16 +22,6 @@ class TagController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -42,7 +31,7 @@ class TagController extends Controller
     {
         Tag::create($request->only('name'));
 
-        return $this->sendResponse('', 'Adding category successfully.');
+        return $this->sendResponse('', 'Adding tag successfully.');
     }
 
     /**
@@ -53,20 +42,9 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
         $tag = Tag::where('id', $id)->firstOrFailToJson('Tag not found.');
 
-        return $this->sendResponse(new TagResource($tag), 'Get Tag successfully.');   
+        return $this->sendResponse(new TagResource($tag), 'Get tag successfully.'); 
     }
 
     /**

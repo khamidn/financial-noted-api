@@ -31,7 +31,8 @@ class SubCategoryRequest extends FormRequest
         ];
 
         if ($this->getMethod() == "PUT") {
-            $rules = ['name' => 'required|unique:sub_categories,name,'.$this->id];
+            $id = $this->sub;
+            $rules = ['name' => 'required|unique:sub_categories,name,'.$id];
         }
 
         return $rules;
