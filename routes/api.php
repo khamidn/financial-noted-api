@@ -18,5 +18,7 @@ Route::middleware(('auth:api'))->group(function(){
     Route::resource('/tag', API\TagController::class)->except('create', 'show');
     Route::resource('/account', API\AccountController::class)->except('create', 'show');
     Route::resource('/transactions', API\TransactionController::class)->except('create', 'show');
+    Route::apiResource('/kelola-users', API\UsersController::class); 
+    
    
 });
