@@ -7,6 +7,7 @@ use App\Http\Requests\TransactionRequest;
 use App\Models\Transaction as ModelTransaction;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\TransactionResource;
+use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
@@ -15,11 +16,45 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $transactions = ModelTransaction::with('user', 'account', 'category', 'sub_category', 'tag')->paginate(10);
 
-        return $this->sendResponsePaginate(TransactionResource::collection($transactions), 'Transactions retrieved successfully.');
+        $transactions = ModelTransaction::with('user', 'account', 'category', 'sub_category', 'tag');
+
+        if ($request->filled(['category_id', 'subcategory_id', 'account_id', 'tag_id', 'start_date', 'end_date'])) {
+            $transactions->where(function($query) use ($request)  {
+                        return $query->where('category_id', 'like', '%'.$request->category_id.'%')
+                        ->where('subcategory_id', 'like', '%'.$request->subcategory_id.'%')
+                        ->where('account_id', 'like', '%'.$request->account_id.'%')
+                        ->where('tag_id', 'like', '%'.$request->tag_id.'%')
+                        ->whereBetween('tanggal', array(date($request->start_date), date($request->end_date)));
+                });
+        }
+
+        if ($request->keyword != null) {
+            $transactions->where('keterangan', 'like', '%'.$request->keyword.'%');
+        }
+
+        if ($request->transaksi_id == 'terbaru') {
+            $transactions->orderBy('id', 'DESC');
+
+        } else if ($request->transaksi_id == 'terlama') {
+            $transactions->orderBy('id', 'ASC');
+
+        } else if ($request->nominal == 'tertinggi') {
+            $transactions->orderBy('nominal', 'DESC');
+
+        } else if ($request->nominal == 'terendah') {
+            $transactions->orderBy('nominal', 'ASC');
+
+        }  else if ($request->tanggal == "terbaru") {
+            $transactions->orderBy('tanggal', 'DESC');
+            
+        }  else if ($request->tanggal == "terlama") {
+            $transactions->orderBy('tanggal', 'ASC');
+        } 
+
+        return $this->sendResponsePaginate(TransactionResource::collection($transactions->paginate(10)), 'Transactions retrieved successfully.');
     }
 
     /**

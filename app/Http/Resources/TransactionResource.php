@@ -19,6 +19,7 @@ class TransactionResource extends JsonResource
             'tanggal' => $this->tanggal,
             'nominal' => $this->nominal,
             'keterangan' => $this->keterangan,
+            'account' => new AccountResource($this->account),
             'category' => new CategoryResource($this->category),
             'sub_category' => new SubCategoriesResource($this->sub_category),
             'tag' => new TagResource($this->tag),
