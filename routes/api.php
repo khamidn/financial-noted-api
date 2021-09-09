@@ -7,7 +7,7 @@ use App\Http\Controllers\API\Auth;
 Route::post('/login', [Auth\LoginController::class, 'login']);
 Route::post('/register', [Auth\RegisterController::class, 'register']);
 Route::post('/forgot', [Auth\ForgotPasswordController::class, 'forgot']);
-Route::post('/reset', [Auth\ForgotPasswordController::class, 'reset']);
+Route::post('/reset', [Auth\ResetPasswordController::class, 'reset']);
 
 Route::middleware(('auth:api'))->group(function(){
     Route::post('/logout', [Auth\LoginController::class, 'logout']);

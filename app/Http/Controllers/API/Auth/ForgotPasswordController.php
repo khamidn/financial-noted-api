@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\{ ForgotPasswordRequest, ResetPasswordRequest};
+use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Models\User;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\{ DB, Mail, Hash };
+use Illuminate\Support\Facades\{ DB, Mail };
 use Illuminate\Mail\Message;
 
 class ForgotPasswordController extends Controller
@@ -34,26 +34,5 @@ class ForgotPasswordController extends Controller
         } catch(\Exception $e){
             return $this->sendError($e->getMessage());
         }
-    }
-
-    public function reset(ResetPasswordRequest $request)
-    {
-        $token = $request->token;
-
-        if (!$passwordResets = DB::table('password_resets')->where('token', $token)->first()) {
-            return $this->sendError('Invalid token.');
-        }
-
-        if (!$user = User::where('email', $passwordResets->email)->first()) {
-            return $this->sendError('User doesn\'t exists.');
-        }
-
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        DB::table('password_resets')->where('email', $passwordResets->email)->delete();
-
-        return $this->sendResponse('', 'Reset password successfully.');
-
     }
 }
