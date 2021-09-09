@@ -8,6 +8,8 @@ use App\Models\Transaction as ModelTransaction;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\TransactionResource;
 use Illuminate\Http\Request;
+use App\Exports\TransactionExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
 {
@@ -117,5 +119,10 @@ class TransactionController extends Controller
         $transaksi->delete();
 
         return $this->sendResponse('', 'Delete transaction successfully.');
+    }
+
+    public function transactionExport()
+    {
+        return Excel::download(new TransactionExport, 'transaction.xlsx');
     }
 }

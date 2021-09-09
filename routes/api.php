@@ -19,6 +19,11 @@ Route::middleware(('auth:api'))->group(function(){
 
     Route::apiResource('/tag', API\TagController::class);
     Route::apiResource('/account', API\AccountController::class);
-    Route::apiResource('/transactions', API\TransactionController::class);
+    Route::prefix('transactions')->name('transactions.') ->group( function(){
+        Route::get('/download', [API\TransactionController::class, 'transactionExport']);
+        Route::apiResource('/', API\TransactionController::class)->parameters(['' => 'transactions']);
+    });
     Route::apiResource('/kelola-users', API\UsersController::class); 
 });
+
+
